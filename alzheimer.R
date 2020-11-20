@@ -12,4 +12,3 @@ library(caret)
 library(readr)
 
 data <- read_csv("https://raw.githubusercontent.com/dsmiddendorf/Alzheimers-Disease-Capstone-Project/main/oasis_cross-sectional.csv")
-
