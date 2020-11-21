@@ -103,5 +103,8 @@ pval <- psych::corr.test(alzheimer[,c(5,7,8,9,10,11,12,13,14)], adjust="none")$p
 pval[pval >= .05] <- NA
 corrplot(cor(alzheimer[,c(5,7,8,9,10,11,12,13,14)]), type="upper", p.mat=pval, insig="p-value", 
          tl.pos="n", sig.level=0)
-corrplot(cor(alzheimer[,c(5,7,8,9,10,11,12,13,14)]), type="lower", add=T, tl.pos="d", cl.pos="n")
 
+corrplot(cor(alzheimer[,c(5,7,8,9,10,11,12,13,14)]), type="lower", add=T, tl.pos="d", cl.pos="n", addCoef.col = T)
+?corrplot
+# → It can be seen that many variables are highly & significantly correlated with each other. 
+# We have to check for multicollinearity to conclude which parameters to include in our final model.
