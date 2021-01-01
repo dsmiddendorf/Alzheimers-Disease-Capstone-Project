@@ -48,6 +48,7 @@ rm(test_index, dat)
 names(alzheimer)
 
 # General summary of the alzheimer data
+head(alzheimer)
 describe(alzheimer[,2:9])
 
 # Gender distribution
@@ -105,6 +106,42 @@ corrplot(cor(alzheimer[,c(5,7,8,9,10,11,12,13,14)]), type="upper", p.mat=pval, i
          tl.pos="n", sig.level=0)
 
 corrplot(cor(alzheimer[,c(5,7,8,9,10,11,12,13,14)]), type="lower", add=T, tl.pos="d", cl.pos="n", addCoef.col = T)
-?corrplot
+
 # → It can be seen that many variables are highly & significantly correlated with each other. 
 # We have to check for multicollinearity to conclude which parameters to include in our final model.
+
+# Checking if the variable Sex and CDR are independent (they aren't)
+chisq.test(alzheimer$Sex, alzheimer$CDR)
+
+# Are the variables CDR and Group the same?
+alzheimer %>% ggplot(aes(Group, fill = as.factor(CDR))) + geom_bar() + theme_bw() +
+  theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())
+alzheimer[which(alzheimer$CDR == .5 & alzheimer$Group == "Nondemented"),]
+
+
+## Data Wrangling
+
+# Collapsing the CDR variable into 0, Nondemented and 1 Demented, new variable is collapsed CDR (cCDR)
+alzheimer$cCDR <- ifelse(alzheimer$CDR %in% c(0.5,1,2), 1, 0)
+model <- glm(cCDR ~ MMSE + Sex + Age + EDUC + SES+ nWBV + ASF, family = "binomial", data = alzheimer)
+
+
+ll.null <- model$null.deviance/-2
+ll.proposed <- model$deviance/-2
+(ll.null - ll.proposed) / ll.null
+1 - pchisq(2*(ll.proposed - ll.null), df = (length(model$coefficients)-1))
+
+
+predicted.data <- data.frame(
+  probability.of.cCDR=model$fitted.values,
+  cCDR=alzheimer$cCDR)
+
+predicted.data <- predicted.data[
+  order(predicted.data$probability.of.cCDR, decreasing=F),]
+predicted.data$rank <- 1:nrow(predicted.data)
+
+ggplot(data=predicted.data, aes(x=rank, y=probability.of.cCDR)) +
+  geom_point(aes(color=cCDR), alpha=1, shape=4, stroke=2) + 
+  xlab("Index") + 
+  ylab("Predicted probability of getting Dementia")
+
