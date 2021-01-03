@@ -1,0 +1,52 @@
+---
+title: "Alzheimer's Disease and its' Biopsychosocial Determinants"
+author: "Daniel Middendorf"
+date: "1/3/2021"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+##########################################################
+# Create alzheimer set, validation set (final hold-out test set)
+##########################################################
+
+# Downloading required libraries for analysis if they have not been downloaded yet
+if(!require(tidyverse)) install.packages("tidyverse")
+if(!require(caret)) install.packages("caret")
+if(!require(readr)) install.packages("readr")
+if(!require(ggplot2)) install.packages("ggplot2")
+if(!require(psych)) install.packages("psych")
+if(!require(ggthemes)) install.packages("ggthemes")
+if(!require(cowplot)) install.packages("cowplot")
+if(!require(corrplot)) install.packages("corrplot")
+if(!require(glmnet)) install.packages("glmnet")
+
+# Loading libraries used for the following analysis
+library(tidyverse)
+library(caret)
+library(readr)
+library(ggplot2)
+library(psych)
+library(ggthemes)
+library(cowplot)
+library(corrplot)
+library(glmnet)
+
+# Loading data 
+dat <- read_csv("https://raw.githubusercontent.com/dsmiddendorf/Alzheimers-Disease-Capstone-Project/main/oasis_longitudinal.csv")
+dat[,c("Hand")] <- NULL # Removing column including handedness as all participants were dextrals
+
+# Change variable name for sex from "M/F" to "Sex"
+names(dat)[6] <- "Sex" 
+
+# Validation set will be 10% of the original dataset
+set.seed(1, sample.kind="Rounding") # if using R 3.5 or earlier, use `set.seed(1)`
+test_index <- createDataPartition(y = dat$Group, times = 1, p = 0.1, list = FALSE)
+alzheimer <- dat[-test_index,]
+validation <- dat[test_index,]
+rm(test_index, dat) # Removing original dataset and test index
+```
