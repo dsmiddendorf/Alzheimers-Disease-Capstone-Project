@@ -12,6 +12,7 @@ if(!require(ggthemes)) install.packages("ggthemes")
 if(!require(cowplot)) install.packages("cowplot")
 if(!require(corrplot)) install.packages("corrplot")
 if(!require(glmnet)) install.packages("glmnet")
+if(!require(knitr)) install.packages("knitr")
 
 # Loading libraries used for the following analysis
 library(tidyverse)
@@ -23,6 +24,7 @@ library(ggthemes)
 library(cowplot)
 library(corrplot)
 library(glmnet)
+library(knitr)
 
 # Loading data 
 dat <- read_csv("https://raw.githubusercontent.com/dsmiddendorf/Alzheimers-Disease-Capstone-Project/main/oasis_longitudinal.csv")
