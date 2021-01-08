@@ -132,11 +132,11 @@ rm(x,y,z)
 ######### Bivariate Examination of the Data ##########
 
 # Correlation matrix between numerical variables
-pval <- psych::corr.test(alzheimer[,c(5,7,8,9,10,11,12,13,14)], adjust="none")$p # Calculating p-values for the different correlations
+pval <- psych::corr.test(alzheimer[,c(5,7,8,11,12,13,14)], adjust="none")$p # Calculating p-values for the different correlations
 pval[pval >= .05] <- NA # Removing p-values above .05
-corrplot(cor(alzheimer[,c(5,7,8,9,10,11,12,13,14)]), type="upper", p.mat=pval, insig="p-value", 
+corrplot(cor(alzheimer[,c(5,7,8,11,12,13,14)]), type="upper", p.mat=pval, insig="p-value", 
          tl.pos="n", sig.level=0) # Plotting the upper half of the correlation matrix with p-values
-corrplot(cor(alzheimer[,c(5,7,8,9,10,11,12,13,14)]), type="lower", add=T, tl.pos="d", cl.pos="n", addCoef.col = T) # Plotting the lower part with correlations
+corrplot(cor(alzheimer[,c(5,7,8,11,12,13,14)]), type="lower", add=T, tl.pos="d", cl.pos="n", addCoef.col = T) # Plotting the lower part with correlations
 
 rm(pval)
 # -> It can be seen that many variables are highly & significantly correlated with each other. 
