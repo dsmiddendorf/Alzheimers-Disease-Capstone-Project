@@ -42,8 +42,6 @@ rm(test_index, dat) # Removing original dataset and test index
 
 
 
-
-
 ##########################################################
 # Data Exploration
 ##########################################################
@@ -292,3 +290,4 @@ rm(alpha0.fit, alpha0.predicted, alpha1.fit, alpha1.predicted, x.train, y.train,
 
 # Overview of the reported RMSEs
 final <- data.frame(RMSE_Average, RMSE_Logistic, RMSE_KNN, RMSE_Ridge, RMSE_Lasso)
+final

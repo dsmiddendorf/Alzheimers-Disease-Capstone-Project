@@ -15,16 +15,17 @@ knitr::opts_chunk$set(echo = TRUE)
 ##########################################################
 
 # Downloading required libraries for analysis if they have not been downloaded yet
-if(!require(tidyverse)) install.packages("tidyverse")
-if(!require(caret)) install.packages("caret")
-if(!require(readr)) install.packages("readr")
-if(!require(ggplot2)) install.packages("ggplot2")
-if(!require(psych)) install.packages("psych")
-if(!require(ggthemes)) install.packages("ggthemes")
-if(!require(cowplot)) install.packages("cowplot")
-if(!require(corrplot)) install.packages("corrplot")
-if(!require(glmnet)) install.packages("glmnet")
-if(!require(knitr)) install.packages("knitr")
+if(!require(tidyverse)) install.packages("tidyverse", repos = "http://cran.us.r-project.org")
+if(!require(caret)) install.packages("caret", repos = "http://cran.us.r-project.org")
+if(!require(readr)) install.packages("readr", repos = "http://cran.us.r-project.org")
+if(!require(ggplot2)) install.packages("ggplot2", repos = "http://cran.us.r-project.org")
+if(!require(psych)) install.packages("psych", repos = "https://personality-project.org/r/", type="source")
+if(!require(ggthemes)) install.packages("ggthemes", repos = "http://cran.us.r-project.org")
+if(!require(cowplot)) install.packages("cowplot", repos = "http://cran.us.r-project.org")
+if(!require(corrplot)) install.packages("corrplot", repos = "http://cran.us.r-project.org")
+if(!require(glmnet)) install.packages("glmnet", repos = "http://cran.us.r-project.org")
+if(!require(knitr)) install.packages("knitr", repos = "http://cran.us.r-project.org")
+if(!require(dplyr)) install.packages("dplyr", repos = "http://cran.us.r-project.org")
 
 # Loading libraries used for the following analysis
 library(tidyverse)
@@ -37,6 +38,7 @@ library(cowplot)
 library(corrplot)
 library(glmnet)
 library(knitr)
+library(dplyr)
 
 # Loading data 
 dat <- read_csv("https://raw.githubusercontent.com/dsmiddendorf/Alzheimers-Disease-Capstone-Project/main/oasis_longitudinal.csv")
