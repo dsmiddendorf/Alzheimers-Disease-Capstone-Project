@@ -78,7 +78,7 @@ validation$MMSE[is.na(validation$MMSE)] <- median(validation$MMSE, na.rm = T)
 
 ######### Visualization ##########
 
-# Create Density Diagrams for continuous variables
+# Create Density Diagrams for continuous variabless
 
 ## Density Plot for Age
 dage <- alzheimer %>% ggplot(aes(Age)) + geom_density() + theme_bw() +
@@ -124,7 +124,7 @@ y <- alzheimer %>% ggplot(aes(SES)) + geom_bar() + theme_bw() +
 ## Barplot for CDR
 z <- alzheimer %>% ggplot(aes(CDR)) + geom_bar() + theme_bw() +
   theme(panel.grid.major = element_blank(),panel.grid.minor = element_blank())
-bar_plots <- plot_grid(x,y,z)
+bar_plots <-plot_grid(x,y,z)
 rm(x,y,z)
 
 
@@ -137,12 +137,14 @@ pval[pval >= .05] <- NA # Removing p-values above .05
 corrplot(cor(alzheimer[,c(5,7,8,9,10,11,12,13,14)]), type="upper", p.mat=pval, insig="p-value", 
          tl.pos="n", sig.level=0) # Plotting the upper half of the correlation matrix with p-values
 corrplot(cor(alzheimer[,c(5,7,8,9,10,11,12,13,14)]), type="lower", add=T, tl.pos="d", cl.pos="n", addCoef.col = T) # Plotting the lower part with correlations
+
 rm(pval)
 # -> It can be seen that many variables are highly & significantly correlated with each other. 
 # We have to check for multicollinearity to conclude which parameters to include in our final model.
 
-# Checking if the variable Sex and CDR are independent with a Chi-Square Test (they aren't)
+# Checking if the variable Sex/SES and CDR are independent with a Chi-Square Test (they aren't)
 chisq.test(alzheimer$Sex, alzheimer$CDR)
+chisq.test(alzheimer$Sex, alzheimer$SES)
 
 # Are the variables CDR and Group the same?
 ## Creating a barplot of Group ('converted', 'demented', 'Nondemented') filled by CDR
@@ -152,8 +154,6 @@ alzheimer %>% ggplot(aes(Group, fill = as.factor(CDR))) + geom_bar() + theme_bw(
 alzheimer[which(alzheimer$CDR == .5 & alzheimer$Group == "Nondemented"),] 
 # -> It seems like CDR and Group are the same variable; group is just a collapsed form
 # Nevertheless, there are two entries that do not fit. 
-
-
 
 
 
@@ -176,8 +176,6 @@ correlations<-cor(numeric_variables)
 highCorr<-findCorrelation(correlations, cutoff = .75)
 numeric_variables<-numeric_variables[,highCorr] # Dropping ASF and 'MR Delay' because of Multicollinearity
 rm(correlations, numeric_variables, highCorr)
-
-
 
 
 
@@ -292,9 +290,5 @@ rm(alpha0.fit, alpha0.predicted, alpha1.fit, alpha1.predicted, x.train, y.train,
 # Summary of the Results
 #########################################################
 
-# Descriptive Statistics
-bar_plots # Barplots of Categorical/Ordinal variables
-density_plots # Density Plots of numerical variables
-
 # Overview of the reported RMSEs
-data.frame(RMSE_Average, RMSE_Logistic, RMSE_KNN, RMSE_Ridge, RMSE_Lasso)
+final <- data.frame(RMSE_Average, RMSE_Logistic, RMSE_KNN, RMSE_Ridge, RMSE_Lasso)
